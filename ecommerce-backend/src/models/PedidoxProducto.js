@@ -28,7 +28,7 @@ const definePedidoxProducto = (sequelize) => {
     allowNull: false,
   }
 }, {
-  tableName: 'pedidoxProductos',
+  tableName: 'pedidosxProductos',
   timestamps: false,
 });
 

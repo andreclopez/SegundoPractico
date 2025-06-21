@@ -24,7 +24,7 @@ const defineCarritoxProducto = (sequelize) => {
     allowNull: false,
   }
 }, {
-  tableName: 'carritoxProductos',
+  tableName: 'carritosxProductos',
   timestamps: false,
 });
 

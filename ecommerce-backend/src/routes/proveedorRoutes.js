@@ -10,10 +10,10 @@ import {
 const router = express.Router();
 
 router.get('/', obtenerProveedoresActivos);
-router.get('/:id', obtenerProveedorPorCuit);
+router.get('/:cuit', obtenerProveedorPorCuit);
 router.post('/', crearProveedor);
-router.put('/:id', actualizarProveedor);
-router.delete('/:id', eliminarProveedor);
+router.put('/:cuit', actualizarProveedor);
+router.delete('/:cuit', eliminarProveedor);
 
 
 export default router;
