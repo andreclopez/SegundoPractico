@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 
-const definePedido = (sequelize) => {
-  const Pedido = sequelize.define('Pedido', {
+const defineCarritoxProducto = (sequelize) => {
+  const CarritoxProducto = sequelize.define('CarritoxProducto', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -10,29 +10,26 @@ const definePedido = (sequelize) => {
   cantidad: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    comment: 'Producto comprado'
   },
-  estado: {
+  subtotal: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  idCarrito: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  idUsuario: {
+  idProducto: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    comment: 'Usuario que realizo la compra'
-  },
-  idCuponDescuento: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    comment: 'Cupon aplicado en la compra'
   }
 }, {
-  tableName: 'pedidos',
+  tableName: 'carritoxProductos',
   timestamps: false,
 });
 
-return Pedido
+return CarritoxProducto
 
 };
 
-export default definePedido;
+export default defineCarritoxProducto;

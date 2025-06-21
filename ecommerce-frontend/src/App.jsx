@@ -9,31 +9,36 @@ import Footer from "../src/components/Footer";
 import Categorias from "../src/components/Categorias";
 import CategoriaId from "../src/components/CategoriaId";
 import CuponDescuento from "../src/components/CuponDescuento";
+import { CuponProvider } from "./context/CuponContext.jsx";
 
 function App() {
-
+  
   return (
+  <CuponProvider>
     <BrowserRouter>
       <div sx={{ gap: 5 }}>
         <Cabecera /> 
         <Routes>
           <Route path="/" element= {
-          <>
-          <Banner />
-          <Filtros /> 
-          <ListaProductos />
-          <CuponDescuento />
-          <Hero />
-          </>
+            <>
+              <Banner />
+              <Filtros /> 
+              <ListaProductos />
+              <CuponDescuento />
+              <Hero />
+            </>
           }
           />
-          <Route path="/categorias" element= {<Categorias/>} />
-          <Route path="/categoria/:id" element= {<CategoriaId/>} />
-          </Routes>
+          <Route path="/categorias" element={<Categorias />} />
+          <Route path="/categoria/:id" element={<CategoriaId />} />
+        </Routes>
         <Footer />
       </div>
     </BrowserRouter>
-  );
+  </CuponProvider>
+);
+
+
 }
 
 export default App;
