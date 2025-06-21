@@ -66,9 +66,9 @@ Pago.belongsTo(Pedido, { foreignKey: 'idPedido' });
 
 Pedido.hasOne(Pago, { foreignKey: 'idPedido' });
 
-Proveedor.hasMany(Producto, { foreignKey: 'idProveedor' });
+Proveedor.hasMany(Producto, { foreignKey: 'cuitProveedor' });
 
-Producto.belongsTo(Proveedor, { foreignKey: 'idProveedor' });
+Producto.belongsTo(Proveedor, { foreignKey: 'cuitProveedor' });
 
 Usuario.hasMany(Carrito, { foreignKey: 'idUsuario' });
 

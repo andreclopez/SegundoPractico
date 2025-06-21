@@ -34,7 +34,7 @@ async function startServer() {
     await sequelize.authenticate();
     console.log('✅ Conexión a la base de datos establecida correctamente.');
 
-    await sequelize.sync({ alter: true });
+    await sequelize.sync({ force: true });
     console.log('✅ Tablas sincronizadas correctamente.');
 
     app.listen(PORT, () =>

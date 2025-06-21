@@ -49,14 +49,25 @@ const defineProducto = (sequelize) => {
       max: 100,
     },
   },
-  idProveedor: {
-    type: DataTypes.STRING,
+  cuitProveedor: {
+    type: DataTypes.BIGINT,
     allowNull: true,
+    references:{
+      model: 'proveedores',
+      key: 'cuit'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
   },
   idCategoria: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
+      type: DataTypes.INTEGER,
+      references:{
+        model: 'categorias',
+        key: 'id'
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'SET NULL'
+    }
 }, {
   tableName: 'productos',
   timestamps: false,
