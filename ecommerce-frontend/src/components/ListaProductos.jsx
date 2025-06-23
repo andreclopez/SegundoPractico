@@ -4,8 +4,12 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useCupon } from "../hooks/useCupon.js"
 
 const ListaProductos = () => {
+
+  const { cuponActivo } = useCupon();
+  const descuentoCupon = cuponActivo?.porcentajeDescuento || 0;
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
@@ -21,7 +25,11 @@ const ListaProductos = () => {
         {productos && productos.length > 0 ? (
           productos.map((producto) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={producto.id}>
-              <CardProducto producto={producto} />
+              <CardProducto 
+              key={producto.id}
+              producto={producto} 
+              descuentoCupon={descuentoCupon} 
+              />
             </Grid>
           ))
         ) : (
@@ -36,7 +44,7 @@ const ListaProductos = () => {
   );
 };
 
-const CardProducto = ({ producto }) => {
+const CardProducto = ({ producto, descuentoCupon = 0 }) => {
   if (!producto) {
     return (
       <Card>
@@ -54,8 +62,20 @@ const CardProducto = ({ producto }) => {
     );
   }
 
-  const precioFinal = Math.round(producto.precio - (producto.precio * producto.descuento / 100));
+   const precioOriginal = producto.precioOriginal || producto.precio;
 
+   //Para usar cupones activos e ignorar descuento de producto
+   const precioConDescuentoCupon =
+   descuentoCupon > 0
+   ? precioOriginal - (precioOriginal * descuentoCupon) / 100
+   : null;
+
+   //Si no hay cupones, se usa el descuento del producto
+   const precioConDescuentoPropio =
+   producto.oferta && producto.descuento > 0
+   ? Math.round(precioOriginal - (precioOriginal * producto.descuento) / 100)
+   : null;
+      
   return (
     <Card
     sx={{
@@ -113,18 +133,31 @@ const CardProducto = ({ producto }) => {
 
         <Rating value={producto.rating} precision={0.5} readOnly size="small" sx={{ my: 1 }} />
 
-        {producto.oferta && producto.descuento > 0 ? (
+        {precioConDescuentoCupon !== null ? (
           <>
-            <Typography variant="body2" color="text.secondary" sx={{ textDecoration: 'line-through' }}>
-              ${producto.precio.toLocaleString()}
+            <Typography 
+            variant="body2" 
+            color="text.secondary" 
+            sx={{ textDecoration: 'line-through' }}
+            >
+              ${precioOriginal.toLocaleString()}
             </Typography>
             <Typography variant="h6" color="red">
-              ${precioFinal.toLocaleString()}
+              ${precioConDescuentoCupon.toLocaleString()}
+            </Typography>
+          </>
+        ) :  precioConDescuentoPropio !== null ? (
+          <>
+          <Typography variant="h6" color="#5a2a2a">
+            ${precioOriginal.toLocaleString()}
+          </Typography>
+          <Typography variant="h6" color="red">
+              ${precioConDescuentoPropio.toLocaleString()}
             </Typography>
           </>
         ) : (
           <Typography variant="h6" color="#5a2a2a">
-            ${producto.precio.toLocaleString()}
+            ${precioOriginal.toLocaleString()}
           </Typography>
         )}
       </CardContent>

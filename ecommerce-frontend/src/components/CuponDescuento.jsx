@@ -4,20 +4,24 @@ import axios from "axios";
 import { useCupon } from "../hooks/useCupon";
 
 const CuponDescuento = () => {
-  const [codigo, setCodigo] = useState("");
+  const [codigoCupon, setCodigoCupon] = useState("");
   const [mensaje, setMensaje] = useState("");
   const { aplicarCupon, quitarCupon, cuponActivo } = useCupon();
 
   const manejarAplicar = async () => {
-    if (!codigo.trim()) {
+    if (!codigoCupon.trim()) {
       setMensaje("Por favor ingresa un código de cupón.");
       return;
     }
     try {
-      const res = await axios.get(`/api/cupones/validar/${codigo.trim()}`);
-      if (res.data && res.data.activo) {
-        aplicarCupon(res.data);
-        setMensaje(`Cupón "${res.data.nombreCupon}" (${res.data.porcentajeDescuento}%) aplicado con éxito.`);
+      const res = await axios.get(`http://localhost:3001/api/cupones/validar/${codigoCupon.trim()}`);
+      console.log("Respuesta del backend:", res.data);
+      if (res.data) {
+        aplicarCupon({
+          nombreCupon: res.data.nombreCupon,
+          porcentajeDescuento: res.data.porcentajeDescuento
+        });
+        setMensaje(""); 
       } else {
         quitarCupon();
         setMensaje("El código de cupón ingresado no es válido o ha expirado.");
@@ -31,7 +35,7 @@ const CuponDescuento = () => {
   const manejarQuitar = () => {
     quitarCupon();
     setMensaje("Cupón eliminado.");
-    setCodigo("");
+    setCodigoCupon("");
   };
 
   return (
@@ -70,19 +74,20 @@ const CuponDescuento = () => {
 
         <Grid item xs={12} textAlign="center">
           <Grid textAlign='center'>
-          <Input
-            placeholder="Código de descuento"
-            value={codigo}
-            onChange={(e) => setCodigo(e.target.value)}
-            sx={{
-              backgroundColor: "#5a2a2a",
-              color: "#fdf6f0",
-              borderRadius: 1,
-              paddingLeft: 1,
-              marginBottom: 1,
-            }}
-          />
+            <Input
+              placeholder="Código de descuento"
+              value={codigoCupon}
+              onChange={(e) => setCodigoCupon(e.target.value)}
+              sx={{
+                backgroundColor: "#5a2a2a",
+                color: "#fdf6f0",
+                borderRadius: 1,
+                paddingLeft: 1,
+                marginBottom: 1,
+              }}
+            />
           </Grid>
+
           <Button
             variant="contained"
             onClick={manejarAplicar}
@@ -91,12 +96,13 @@ const CuponDescuento = () => {
               "&:hover": {
                 backgroundColor: "#3e1e1e",
               },
+              marginRight: cuponActivo ? 1 : 0,
             }}
           >
             Aplicar cupón
           </Button>
 
-        {cuponActivo && (
+          {cuponActivo && (
             <Button
               variant="outlined"
               color="secondary"
@@ -104,15 +110,15 @@ const CuponDescuento = () => {
             >
               Quitar cupón
             </Button>
-        )}
+          )}
 
-        {mensaje && (
+          {(mensaje || cuponActivo) && (
             <Typography
               color={cuponActivo ? "green" : "red"}
               textAlign="center"
               mt={2}
             >
-              {mensaje}
+              {mensaje || `Cupón "${cuponActivo.nombreCupon}" (${cuponActivo.porcentajeDescuento}%) aplicado con éxito.`}
             </Typography>
           )}
         </Grid>

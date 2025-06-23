@@ -1,9 +1,32 @@
 import { CuponDescuento, Pedido } from '../models/index.js';
 
+export const validarCuponPorCodigo = async (req, res) => {
+  try {
+    const { codigoCupon } = req.params;
+
+    const cupon = await CuponDescuento.findOne({
+      where: {
+        codigoCupon: codigoCupon,
+        activo: true
+      }
+    });
+    if (!cupon) {
+      return res.status(404).json({ mensaje: 'Cupón inválido o inactivo' });
+    }
+    res.status(200).json({
+      nombreCupon: cupon.nombreCupon,
+      porcentajeDescuento: cupon.porcentajeDescuento
+    });
+  } catch (error) {
+    console.error('Error al validar cupón:', error);
+    res.status(500).json({ mensaje: 'Error interno del servidor', error: error.message });
+  }
+}
+
 export const obtenerCuponesActivos = async (req, res) => {
   try {
     const cupones = await CuponDescuento.findAll({
-      where: { activa: true }
+      where: { activo: true }
     });
     res.status(200).json(cupones);
   } catch (error) {
@@ -78,4 +101,5 @@ export const eliminarCupon = async (req, res) => {
     console.error("Error al eliminar el cupón:", error);
     res.status(500).json({ message: 'Error interno del servidor', error: error.message });
   }
+
 };
