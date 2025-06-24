@@ -11,6 +11,7 @@ import definePedidoxProducto from "./PedidoxProducto.js";
 import defineProducto from "./Producto.js";
 import defineProveedor from "./Proveedor.js";
 import defineUsuario from "./Usuario.js";
+import defineMensaje from "./Mensaje.js";
 
 const Administrador = defineAdministrador(sequelize);
 const Carrito = defineCarrito(sequelize);
@@ -22,7 +23,8 @@ const Pedido = definePedido(sequelize);
 const PedidoxProducto = definePedidoxProducto(sequelize)
 const Producto = defineProducto(sequelize);
 const Proveedor = defineProveedor(sequelize);
-const Usuario = defineUsuario(sequelize)
+const Usuario = defineUsuario(sequelize);
+const Mensaje = defineMensaje(sequelize);
 
 
 // Relaciones
@@ -74,6 +76,12 @@ Usuario.hasMany(Carrito, { foreignKey: 'idUsuario' });
 
 Carrito.belongsTo(Usuario, { foreignKey: 'idUsuario' });
 
+Producto.hasMany(Mensaje, {foreignKey: 'idProducto'})
+
+Mensaje.belongsTo(Producto, {foreignKey: 'idProducto'});
+
+
+
 export { 
     sequelize,
     Administrador,
@@ -87,4 +95,5 @@ export {
     Producto, 
     Proveedor,
     Usuario,
+    Mensaje,
 };

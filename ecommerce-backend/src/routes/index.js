@@ -9,7 +9,8 @@ import pedidoRoutes from './pedidoRoutes.js';
 import pedidoxProductoRoutes from './pedidoxProductoRoutes.js'
 import productoRoutes from './productoRoutes.js';
 import proveedorRoutes from './proveedorRoutes.js';
-import usuarioRoutes from './usuarioRoutes.js'
+import usuarioRoutes from './usuarioRoutes.js';
+import mensajeRoutes from './mensajeRoutes.js';
 
 const router = Router();
 
@@ -23,6 +24,7 @@ router.use('/pedidos', pedidoRoutes);
 router.use('/pedidosxProductos', pedidoxProductoRoutes);
 router.use('/productos', productoRoutes);
 router.use('/proveedores', proveedorRoutes);
-router.use('/usuarios', usuarioRoutes)
+router.use('/usuarios', usuarioRoutes);
+router.use('/productos/:idProducto/mensajes', mensajeRoutes);
 
 export default router;

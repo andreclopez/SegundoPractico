@@ -10,6 +10,7 @@ import Categorias from "../src/components/Categorias";
 import CategoriaId from "../src/components/CategoriaId";
 import CuponDescuento from "../src/components/CuponDescuento";
 import { CuponProvider } from "./context/CuponContext.jsx";
+import ProductoDetalle from "./components/ProductoDetalle.jsx";
 
 function App() {
   
@@ -31,6 +32,7 @@ function App() {
           />
           <Route path="/categorias" element={<Categorias />} />
           <Route path="/categoria/:id" element={<CategoriaId />} />
+          <Route path="/producto/:id" element={<ProductoDetalle />}/>
         </Routes>
         <Footer />
       </div>
