@@ -12,7 +12,7 @@ const defineCarritoxProducto = (sequelize) => {
     allowNull: false,
   },
   subtotal: {
-    type: DataTypes.FLOAT,
+    type: DataTypes.DECIMAL(10,2),
     allowNull: false,
   },
   idCarrito: {

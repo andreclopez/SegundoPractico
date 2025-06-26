@@ -13,7 +13,7 @@ const definePedido = (sequelize) => {
     comment: 'Producto comprado'
   },
   estado: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.ENUM('activo', 'cerrado', 'cancelado'), 
     allowNull: false,
   },
   idUsuario: {
@@ -23,8 +23,13 @@ const definePedido = (sequelize) => {
   },
   idCuponDescuento: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    comment: 'Cupon aplicado en la compra'
+    allowNull: true,
+    references: {
+      model: 'cupones',
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL', 
   }
 }, {
   tableName: 'pedidos',

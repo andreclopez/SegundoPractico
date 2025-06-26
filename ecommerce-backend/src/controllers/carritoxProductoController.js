@@ -30,11 +30,26 @@ export const obtenerCarritoxProductoPorId = async (req, res) => {
 
 export const crearCarritoxProducto = async (req, res) => {
   try {
-    const nuevoCarritoxProducto = await CarritoxProducto.create(req.body);
-    res.status(201).json(nuevoCarritoxProducto); 
+    const { cantidad, idCarrito, idProducto } = req.body;
+
+    const producto = await Producto.findByPk(idProducto);
+    if (!producto) {
+      return res.status(404).json({ message: "Producto no encontrado" });
+    }
+
+    const subtotal = cantidad * producto.precio;
+
+    const nuevoRegistro = await CarritoxProducto.create({
+      cantidad,
+      subtotal,
+      idCarrito,
+      idProducto
+    });
+
+    res.status(201).json(nuevoRegistro);
   } catch (error) {
-    console.error("Error al crear entrada:", error);
-    if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+    console.error("Error al agregar producto al carrito:", error);
+    if (error.name === 'SequelizeValidationError') {
       return res.status(400).json({ message: 'Error de validación', errors: error.errors.map(e => e.message) });
     }
     res.status(500).json({ message: 'Error interno del servidor', error: error.message });
@@ -47,7 +62,7 @@ export const actualizarCarritoxProducto = async (req, res) => {
     const datosActualizar = req.body;
     const carritoxProducto = await CarritoxProducto.findByPk(id);
     if (carritoxProducto) {
-      const carritoxProductoActualizado = await carritosxProducto.update(datosActualizar);
+      const carritoxProductoActualizado = await carritoxProducto.update(datosActualizar);
       res.status(200).json(carritoxProductoActualizado);
     } else {
       res.status(404).json({ message: 'Datos no encontrados para actualizar' });

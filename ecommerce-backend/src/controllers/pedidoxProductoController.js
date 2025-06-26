@@ -1,4 +1,4 @@
-import { PedidoxProducto, Producto, Pago, } from '../models/index.js';
+import { PedidoxProducto, Producto, Pago } from '../models/index.js';
 
 export const obtenerPedidosxProductosActivos = async (req, res) => {
   try {
@@ -13,8 +13,8 @@ export const obtenerPedidosxProductosActivos = async (req, res) => {
 export const obtenerPedidoxProductoPorId = async (req, res) => {
   try {
     const { id } = req.params;
-    const pedidoxProducto = await pedidoxProducto.findByPk(id, { 
-      include: [Producto, Pago ]
+    const pedidoxProducto = await PedidoxProducto.findByPk(id, { 
+      include: [Producto, Pago]
     });
 
     if (pedidoxProducto) {
@@ -23,15 +23,33 @@ export const obtenerPedidoxProductoPorId = async (req, res) => {
       res.status(404).json({ message: 'Información no encontrada' });
     }
   } catch (error) {
-    console.error("Error al obtener carrito por ID:", error);
+    console.error("Error al obtener pedido por ID:", error);
     res.status(500).json({ message: 'Error interno del servidor', error: error.message });
   }
 };
 
 export const crearPedidoxProducto = async (req, res) => {
   try {
-    const nuevoPedidoxProducto = await CarritoxProducto.create(req.body);
-    res.status(201).json(nuevoPedidoxProducto); 
+    const { cantidad, idPedido, idProducto } = req.body;
+
+    const producto = await Producto.findByPk(idProducto);
+    if (!producto) {
+      return res.status(404).json({ message: "Producto no encontrado" });
+    }
+
+    const precioUnitario = producto.precio;
+    const subtotal = cantidad * precioUnitario;
+
+    const nuevoPedidoxProducto = await PedidoxProducto.create({
+      cantidad,
+      precioUnitario,
+      subtotal,
+      idPedido,
+      idProducto,
+    });
+
+    res.status(201).json(nuevoPedidoxProducto);
+
   } catch (error) {
     console.error("Error al crear información:", error);
     if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
@@ -47,7 +65,7 @@ export const actualizarPedidoxProducto = async (req, res) => {
     const datosActualizar = req.body;
     const pedidoxProducto = await PedidoxProducto.findByPk(id);
     if (pedidoxProducto) {
-      const pedidoxProductoActualizado = await carritosxProducto.update(datosActualizar);
+      const pedidoxProductoActualizado = await pedidoxProducto.update(datosActualizar);
       res.status(200).json(pedidoxProductoActualizado);
     } else {
       res.status(404).json({ message: 'Datos no encontrados para actualizar' });

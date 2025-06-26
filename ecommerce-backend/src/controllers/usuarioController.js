@@ -32,8 +32,33 @@ export const obtenerUsuarioPorId = async (req, res) => {
 
 export const crearUsuario = async (req, res) => {
   try {
-    const nuevoUsuario = await Usuario.create(req.body);
-    res.status(201).json(nuevoUsuario); 
+    const {
+      nombre,
+      apellido,
+      telefono,
+      email,
+      contraseña,
+      fechaRegistro,
+      direccion,
+      provincia,
+      localidad,
+      codigoPostal,
+    } = req.body;
+
+    const nuevoUsuario = await Usuario.create({
+      nombre,
+      apellido,
+      telefono,
+      email,
+      contraseña,
+      fechaRegistro,
+      direccion,
+      provincia,
+      localidad,
+      codigoPostal,
+    });
+
+    res.status(201).json(nuevoUsuario);
   } catch (error) {
     console.error("Error al crear usuario:", error);
     if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {

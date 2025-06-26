@@ -35,6 +35,7 @@ const Filtros = () => {
         <InputLabel>Categoria</InputLabel>
         <Select value={categoria} onChange={(e) => setCategoria(e.target.value)} label="Category">
           <MenuItem value="">Todas las categorias</MenuItem>
+          <MenuItem value="Vino Tinto">Sales</MenuItem>
           <MenuItem value="Vino Tinto">Red Wine</MenuItem>
           <MenuItem value="Vino Blanco">White Wine</MenuItem>
           <MenuItem value="Vino Rosé">Rosé Wine</MenuItem>
