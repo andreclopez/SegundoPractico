@@ -25,7 +25,7 @@ export const obtenerPedidoxProductoPorId = async (req, res) => {
     if (pedidoxProducto) {
       res.status(200).json(pedidoxProducto);
     } else {
-      res.status(404).json({ message: 'Información no encontrada' });
+      res.status(404).json({ message: 'Datos no encontrados' });
     }
   } catch (error) {
     console.error("Error al obtener pedido por ID:", error);
@@ -39,7 +39,7 @@ export const crearPedidoxProducto = async (req, res) => {
 
     const producto = await Producto.findByPk(idProducto);
     if (!producto) {
-      return res.status(404).json({ message: "Producto no encontrado" });
+      return res.status(404).json({ message: "Datos no encontrados" });
     }
 
     const precioUnitario = producto.precio;

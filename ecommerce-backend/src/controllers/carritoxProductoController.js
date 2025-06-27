@@ -20,7 +20,7 @@ export const obtenerCarritoxProductoPorId = async (req, res) => {
     if (carritoxProducto) {
       res.status(200).json(carritoxProducto);
     } else {
-      res.status(404).json({ message: 'Información no encontrada' });
+      res.status(404).json({ message: 'Datos no encontrados' });
     }
   } catch (error) {
     console.error("Error al obtener carrito por ID:", error);
@@ -34,7 +34,7 @@ export const crearCarritoxProducto = async (req, res) => {
 
     const producto = await Producto.findByPk(idProducto);
     if (!producto) {
-      return res.status(404).json({ message: "Producto no encontrado" });
+      return res.status(404).json({ message: "Datos no encontrados" });
     }
 
     const subtotal = cantidad * producto.precio;
