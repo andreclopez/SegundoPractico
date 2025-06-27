@@ -77,7 +77,7 @@ export const eliminarCarrito = async (req, res) => {
   try {
     const { id } = req.params;
     const resultado = await Carrito.destroy({
-      where: { id: id }
+      where: { id: req.params.id }
     });
     
     if (resultado > 0) { 

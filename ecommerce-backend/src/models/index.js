@@ -40,7 +40,7 @@ CarritoxProducto.belongsTo(Carrito, { foreignKey: 'idCarrito' });
 
 CarritoxProducto.belongsTo(Producto, { foreignKey: 'idProducto' });
 
-Carrito.hasMany(CarritoxProducto, { foreignKey: 'idCarrito' });
+Carrito.hasMany(CarritoxProducto, { foreignKey: 'idCarrito', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
 
 Producto.hasMany(CarritoxProducto, { foreignKey: 'idProducto' });
 
