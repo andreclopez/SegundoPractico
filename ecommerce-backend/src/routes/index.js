@@ -26,5 +26,6 @@ router.use('/productos', productoRoutes);
 router.use('/proveedores', proveedorRoutes);
 router.use('/usuarios', usuarioRoutes);
 router.use('/productos/:idProducto/mensajes', mensajeRoutes);
+router.use('/mensajes', mensajeRoutes);
 
 export default router;
