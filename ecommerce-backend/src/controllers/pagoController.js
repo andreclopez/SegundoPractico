@@ -2,9 +2,7 @@ import { Pago, Pedido } from '../models/index.js';
 
 export const obtenerPagosActivos = async (req, res) => {
   try {
-    const pagos = await Pago.findAll({
-      where: { activa: true }
-    });
+    const pagos = await Pago.findAll();
     res.status(200).json(pagos);
   } catch (error) {
     console.error("Error al obtener los pagos activos:", error);

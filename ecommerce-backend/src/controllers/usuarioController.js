@@ -2,9 +2,7 @@ import { Usuario, Pedido, Carrito } from '../models/index.js';
 
 export const obtenerUsuariosActivos = async (req, res) => {
   try {
-    const usuarios = await Usuario.findAll({
-      where: { activa: true }
-    });
+    const usuarios = await Usuario.findAll();
     res.status(200).json(usuarios);
   } catch (error) {
     console.error("Error al obtener los usuarios:", error);

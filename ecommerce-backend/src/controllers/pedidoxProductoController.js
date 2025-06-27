@@ -1,4 +1,4 @@
-import { PedidoxProducto, Producto, Pago } from '../models/index.js';
+import { PedidoxProducto, Producto, Pago, Pedido } from '../models/index.js';
 
 export const obtenerPedidosxProductosActivos = async (req, res) => {
   try {
@@ -14,7 +14,12 @@ export const obtenerPedidoxProductoPorId = async (req, res) => {
   try {
     const { id } = req.params;
     const pedidoxProducto = await PedidoxProducto.findByPk(id, { 
-      include: [Producto, Pago]
+      include: [{
+        model: Producto
+      }, {
+        model: Pedido,
+        include: [Pago]
+      }]
     });
 
     if (pedidoxProducto) {

@@ -3,7 +3,7 @@ import { Carrito, Producto, Usuario} from '../models/index.js';
 export const obtenerCarritosActivos = async (req, res) => {
   try {
     const carritos = await Carrito.findAll({
-      where: { activa: true }
+      where: { estado: 'activo' }
     });
     res.status(200).json(carritos);
   } catch (error) {
@@ -16,7 +16,17 @@ export const obtenerCarritoPorId = async (req, res) => {
   try {
     const { id } = req.params;
     const carrito = await Carrito.findByPk(id, { 
-      include: [Producto, Usuario] 
+      include: [
+        {
+          model: Producto, 
+          attributes: ['id', 'nombre'],
+          through: { attributes: ['cantidad'] } // para ver los campos de la tabla intermedia
+        }, 
+        {
+          model: Usuario,
+          attributes: ['id', 'nombre']
+        }
+      ]
     });
 
     if (carrito) {

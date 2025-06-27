@@ -80,7 +80,9 @@ Producto.hasMany(Mensaje, {foreignKey: 'idProducto'})
 
 Mensaje.belongsTo(Producto, {foreignKey: 'idProducto'});
 
+Carrito.belongsToMany(Producto, { through: 'CarritoxProducto', foreignKey: 'idCarrito' });
 
+Producto.belongsToMany(Carrito, { through: 'CarritoxProducto', foreignKey: 'idProducto' });
 
 export { 
     sequelize,

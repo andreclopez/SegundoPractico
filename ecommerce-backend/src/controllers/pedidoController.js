@@ -3,7 +3,7 @@ import { CuponDescuento, Pedido } from '../models/index.js';
 export const obtenerPedidos = async (req, res) => {
   try {
     const pedidos = await Pedido.findAll({
-      where: { activa: true },
+      where: { estado: 'activo' },
       include: CuponDescuento
     });
     res.status(200).json(pedidos);

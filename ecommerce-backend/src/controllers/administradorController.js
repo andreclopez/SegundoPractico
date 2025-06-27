@@ -2,9 +2,7 @@ import { Administrador, Producto, Proveedor } from '../models/index.js';
 
 export const obtenerAdministradores = async (req, res) => {
   try {
-    const administradores = await Administrador.findAll({
-      where: { activa: true }
-    });
+    const administradores = await Administrador.findAll();
     res.status(200).json(administradores);
   } catch (error) {
     console.error("Error al obtener administradores:", error);
